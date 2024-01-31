@@ -6,60 +6,75 @@ import java.util.Objects;
 
 public class Seller implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private Integer id;
     private String name;
     private String email;
-    private Date BirthDate;
+    private Date birthDate;
     private Double baseSalary;
+
+    // composição do objeto
+    private Department department;
 
     public Seller() {
     }
 
-    public Seller(String name, String email, Date birthDate, Double baseSalary) {
+    public Seller(Integer id, String name, String email, Date birthDate, Double baseSalary, Department department) {
+        this.id = id;
         this.name = name;
         this.email = email;
-        BirthDate = birthDate;
+        this.birthDate = birthDate;
         this.baseSalary = baseSalary;
+        this.department = department;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Date getBirthDate() {
-        return BirthDate;
-    }
-
-    public Double getBaseSalary() {
-        return baseSalary;
-    }
-
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
 
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
     public void setBirthDate(Date birthDate) {
-        BirthDate = birthDate;
+        this.birthDate = birthDate;
+    }
+
+    public Double getBaseSalary() {
+        return baseSalary;
     }
 
     public void setBaseSalary(Double baseSalary) {
         this.baseSalary = baseSalary;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     @Override
@@ -67,12 +82,12 @@ public class Seller implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Seller seller = (Seller) o;
-        return Objects.equals(id, seller.id) && Objects.equals(name, seller.name) && Objects.equals(email, seller.email) && Objects.equals(BirthDate, seller.BirthDate) && Objects.equals(baseSalary, seller.baseSalary);
+        return Objects.equals(id, seller.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, BirthDate, baseSalary);
+        return Objects.hash(id);
     }
 
     @Override
@@ -81,8 +96,9 @@ public class Seller implements Serializable {
             "id=" + id +
             ", name='" + name + '\'' +
             ", email='" + email + '\'' +
-            ", BirthDate=" + BirthDate +
+            ", birthDate=" + birthDate +
             ", baseSalary=" + baseSalary +
+            ", department=" + department +
             '}';
     }
 }
