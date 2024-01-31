@@ -1,5 +1,14 @@
+import model.entity.Department;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        /*
+        DAO - Data access object
+         */
+
+        Department obj = new Department(1, "Library");
+
+        System.out.println(obj);
+
     }
 }
