@@ -60,18 +60,10 @@ public class SellerDaoJDBC implements SellerDao {
             // teste se tem resultado
             if (rs.next()){
                 // populando o objeto department - utilizando o resultado da consulta
-                Department dep = new Department();
-                dep.setId(rs.getInt("DepartmentId"));
-                dep.setName(rs.getString("DepName"));
+                Department dep = instantiateDepartmet(rs);
+                // populando o objeto seller - passa para a função o resultSet e o objeto department (dependência)
+                Seller obj = instantiateSeller(rs, dep);
 
-                // populando o objeto department
-                Seller obj = new Seller();
-                obj.setId(rs.getInt("Id"));
-                obj.setName(rs.getString("Name"));
-                obj.setEmail(rs.getString("Email"));
-                obj.setBaseSalary(rs.getDouble("BaseSalary"));
-                obj.setBirthDate(rs.getDate("BirthDate"));
-                obj.setDepartment(dep);
                 return obj;
             }
             // se a validação der false, retorna nulo
@@ -83,6 +75,27 @@ public class SellerDaoJDBC implements SellerDao {
             DB.closeStatement(st);
             DB.closeResultSet(rs);
         }
+    }
+
+    // método de instanciação para reuso do objeto
+    // o erro não será tratado aqui mas sim no try do método
+    private Seller instantiateSeller(ResultSet rs, Department dep) throws SQLException {
+        Seller obj = new Seller();
+        obj.setId(rs.getInt("Id"));
+        obj.setName(rs.getString("Name"));
+        obj.setEmail(rs.getString("Email"));
+        obj.setBaseSalary(rs.getDouble("BaseSalary"));
+        obj.setBirthDate(rs.getDate("BirthDate"));
+        obj.setDepartment(dep);
+        return obj;
+    }
+
+    // método de instanciação para reuso do objeto
+    private Department instantiateDepartmet(ResultSet rs) throws SQLException {
+        Department dep = new Department();
+        dep.setId(rs.getInt("DepartmentId"));
+        dep.setName(rs.getString("DepName"));
+        return dep;
     }
 
     @Override
