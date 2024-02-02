@@ -27,6 +27,12 @@ public class Main {
         Department department = new Department(3, null);
         List<Seller> sellerByDepartment = sellerDao.findByDepartment(department);
         sellerByDepartment.forEach(System.out::println);
+        System.out.println();
+
+        System.out.println("=== Test 3: seller findAll ===");
+        List<Seller> sellers = sellerDao.findAll();
+        sellers.forEach(System.out::println);
+
 
     }
 }
