@@ -10,7 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // métodos da classe Seller
 public class SellerDaoJDBC implements SellerDao {
@@ -37,6 +40,55 @@ public class SellerDaoJDBC implements SellerDao {
     @Override
     public void deleteById(Integer id) {
 
+    }
+
+    @Override
+    public List<Seller> findByDepartment(Department department){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            st = conn.prepareStatement(
+                "SELECT seller.*, department.Name as DepName "
+                    + "FROM seller INNER JOIN department "
+                    + "ON seller.DepartmentId = department.Id "
+                    + "WHERE DepartmentId = ? "
+                    + "ORDER BY Name"
+            );
+
+            st.setInt(1, department.getId());
+            rs = st.executeQuery();
+
+            List<Seller> sellersByDepartment = new ArrayList<>();
+            // mapa de controle da instância dos departamentos - serve para não instanciar um novo departamento a cada objeto da lista
+            // dessa forma, todos os sellers apontarão para o mesmo objeto department
+            Map<Integer, Department> map = new HashMap<>();
+
+            while (rs.next()){
+                // reaproveitamento da instancia do departamento
+                // teste se o departamento já existe na lista
+                Department dep = map.get(rs.getInt("DepartmentId"));
+                // instancia do departamento se o map for nulo
+                if (dep == null){
+                    dep = instantiateDepartmet(rs);
+                    map.put(rs.getInt("DepartmentId"), dep);
+                }
+
+                // populando o objeto seller - passa para a função o resultSet e o objeto department (dependência)
+                Seller obj = instantiateSeller(rs, dep);
+                // adicionando o vendedor na lista
+                sellersByDepartment.add(obj);
+            }
+
+            return sellersByDepartment;
+
+
+        } catch (SQLException e){
+            throw new DbException(e.getMessage());
+        } finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+        }
     }
 
     @Override

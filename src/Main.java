@@ -4,6 +4,8 @@ import model.entity.Department;
 import model.entity.Seller;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,5 +19,14 @@ public class Main {
         System.out.println("=== Test 1: seller findById ===");
         Seller seller = sellerDao.findById(3);
         System.out.println(seller);
+        System.out.println();
+
+
+        System.out.println("=== Test 2: seller findByDepartment ===");
+
+        Department department = new Department(3, null);
+        List<Seller> sellerByDepartment = sellerDao.findByDepartment(department);
+        sellerByDepartment.forEach(System.out::println);
+
     }
 }
