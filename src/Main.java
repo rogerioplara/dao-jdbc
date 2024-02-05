@@ -6,12 +6,15 @@ import model.entity.Seller;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         /*
         DAO - Data access object
          */
+
+        Scanner sc = new Scanner(System.in);
 
         // isola a implementação, o programa só conhece a interface
         SellerDao sellerDao = DaoFactory.createSellerDao();
@@ -29,10 +32,12 @@ public class Main {
         sellerByDepartment.forEach(System.out::println);
         System.out.println();
 
+
         System.out.println("=== Test 3: seller findAll ===");
         List<Seller> sellers = sellerDao.findAll();
         sellers.forEach(System.out::println);
         System.out.println();
+
 
         System.out.println("=== Test 4: seller insert ===");
         Seller newSeller = new Seller(
@@ -47,7 +52,8 @@ public class Main {
         System.out.println("Inserted! New id = " + newSeller.getId());
         System.out.println();
 
-        System.out.println("=== Test 4: seller update ===");
+
+        System.out.println("=== Test 5: seller update ===");
         seller = sellerDao.findById(1);
         seller.setName("Martha Wayne");
         sellerDao.update(seller);
@@ -55,8 +61,13 @@ public class Main {
         System.out.println();
 
 
-
-
+        System.out.println("=== Test 6: seller delete ===");
+        System.out.println("Enter ID for delete test: ");
+        int id = sc.nextInt();
+        sellerDao.deleteById(id);
+        System.out.println("Seller deleted");
+        sc.close();
+        System.out.println();
 
     }
 }
