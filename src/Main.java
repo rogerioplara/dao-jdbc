@@ -26,7 +26,6 @@ public class Main {
 
 
         System.out.println("=== Test 2: seller findByDepartment ===");
-
         Department department = new Department(3, null);
         List<Seller> sellerByDepartment = sellerDao.findByDepartment(department);
         sellerByDepartment.forEach(System.out::println);
