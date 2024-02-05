@@ -32,6 +32,22 @@ public class Main {
         System.out.println("=== Test 3: seller findAll ===");
         List<Seller> sellers = sellerDao.findAll();
         sellers.forEach(System.out::println);
+        System.out.println();
+
+        System.out.println("=== Test 4: seller insert ===");
+        Seller newSeller = new Seller(
+            null,
+            "Greg",
+            "greg@gmail.com",
+            new Date(),
+            4000.0,
+            department
+        );
+        sellerDao.insert(newSeller);
+        System.out.println("Inserted! New id = " + newSeller.getId());
+        System.out.println();
+
+
 
 
     }
