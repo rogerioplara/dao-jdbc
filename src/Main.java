@@ -47,6 +47,14 @@ public class Main {
         System.out.println("Inserted! New id = " + newSeller.getId());
         System.out.println();
 
+        System.out.println("=== Test 4: seller update ===");
+        seller = sellerDao.findById(1);
+        seller.setName("Martha Wayne");
+        sellerDao.update(seller);
+        System.out.println("Update completed");
+        System.out.println();
+
+
 
 
 
